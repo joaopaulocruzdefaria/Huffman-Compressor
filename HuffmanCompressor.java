@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+// Essa classe é o motor que faz toda a compressão de Huffman para um bloco de texto .
+
 public class HuffmanCompressor {
 
     private Map<String, Integer> frequencies;
@@ -11,27 +13,37 @@ public class HuffmanCompressor {
     private Map<String, String> huffmanCodes;
     private String compressedText;
 
+    // Construtor que já faz toda a compressão de Huffman para um bloco de texto.
+
     public HuffmanCompressor(String textBlock) {
         this.frequencies = calculateFrequencies(textBlock);
         this.huffmanTreeRoot = buildHuffmanTree(this.frequencies);
-        
+
         this.huffmanCodes = new HashMap<>();
         generateCodes(this.huffmanTreeRoot, "", this.huffmanCodes);
-        
+
         this.compressedText = compressText(textBlock, this.huffmanCodes);
     }
+
+    // Mapa de códigos de Huffman gerados (Palavra => Código Binário).
 
     public Map<String, String> getHuffmanCodes() {
         return this.huffmanCodes;
     }
 
+    // Método para obter o texto comprimido (ex: "001101011").
+
     public String getCompressedText() {
         return this.compressedText;
     }
-    
+
+    // Retorna o Mapa de frequências calculado.
+
     public Map<String, Integer> getFrequencies() {
         return this.frequencies;
     }
+
+    // Limpa cada palavra do texto ( tira acentuação ) e faz o calculo das frequências
 
     private Map<String, Integer> calculateFrequencies(String textBlock) {
         Map<String, Integer> wordFrequencies = new HashMap<>();
@@ -39,26 +51,40 @@ public class HuffmanCompressor {
         for (String word : words) {
             String cleanWord = word.toLowerCase().replaceAll("[.,!?;]", "");
             if (cleanWord.isEmpty()) continue;
-            wordFrequencies.put(cleanWord, wordFrequencies.getOrDefault(cleanWord, 0) + 1);
+            wordFrequencies.put(
+                cleanWord,
+                wordFrequencies.getOrDefault(cleanWord, 0) + 1
+            );
         }
-        
+
         printSortedFrequencies(wordFrequencies);
-        
+
         return wordFrequencies;
     }
-    
+
+    // Printa no console as frequências ordenadas
+
     private void printSortedFrequencies(Map<String, Integer> wordFrequencies) {
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(wordFrequencies.entrySet());
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(
+            wordFrequencies.entrySet()
+        );
         entryList.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
         System.out.println("Frequências (em ordem decrescente):");
         for (Map.Entry<String, Integer> entry : entryList) {
             System.out.println(
-                "  - Palavra: '" + entry.getKey() + 
-                "', Ocorrências: " + entry.getValue()
+                "  - Palavra: '" +
+                    entry.getKey() +
+                    "', Ocorrências: " +
+                    entry.getValue()
             );
         }
     }
+
+    // Constrói a Árvore de Huffman usando uma fila de Prioridade
+    // O algoritmo tira da fila os dois nós de menor frequência
+    // junta os dois à um nó pai, e coloca o pai de volta na fila
+    // depois repete até que reste somente a raiz
 
     private Node buildHuffmanTree(Map<String, Integer> wordFrequencies) {
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
@@ -76,17 +102,32 @@ public class HuffmanCompressor {
         return priorityQueue.poll();
     }
 
-    private void generateCodes(Node node, String currentCode, Map<String, String> huffmanCodes) {
+    // Percorre a àrvore recursivamente, o caminho para a esquerda concatena 0 e o caminho para a direita concatena 1
+    // na string final que representa o código binário de Huffman para a palavra atual.
+
+    private void generateCodes(
+        Node node,
+        String currentCode,
+        Map<String, String> huffmanCodes
+    ) {
         if (node == null) return;
         if (node.isLeaf()) {
-            huffmanCodes.put(node.word, currentCode.isEmpty() ? "0" : currentCode);
+            huffmanCodes.put(
+                node.word,
+                currentCode.isEmpty() ? "0" : currentCode
+            );
             return;
         }
         generateCodes(node.left, currentCode + "0", huffmanCodes);
         generateCodes(node.right, currentCode + "1", huffmanCodes);
     }
+    
+    // Comprime o texto original usando a àrvore construida nas funcoes anteriores
 
-    private String compressText(String textBlock, Map<String, String> huffmanCodes) {
+    private String compressText(
+        String textBlock,
+        Map<String, String> huffmanCodes
+    ) {
         StringBuilder compressedBuilder = new StringBuilder();
         String[] words = textBlock.split("\\s+");
         for (String word : words) {
