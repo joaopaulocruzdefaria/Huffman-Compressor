@@ -20,7 +20,7 @@ public class Main {
             Files.deleteIfExists(outputPath);
 
             String fullContent = Files.readString(inputPath);
-            String[] textBlocks = fullContent.split("\\n\\n");
+            String[] textBlocks = fullContent.split("(\\r?\\n){2,}");
 
             for (String block : textBlocks) {
                 if (block.isEmpty()) continue;
