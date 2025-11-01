@@ -1,7 +1,3 @@
-Aqui está uma sugestão de `README.md` completo, escrito em português. Ele inclui a descrição do projeto, uma explicação do algoritmo (como você pediu) e as instruções de execução.
-
------
-
 # Implementação do Código de Huffman para Compressão de Texto
 
 Implementação do Código de Huffman em Java, focado na compressão de texto baseada na frequência de palavras . Este projeto foi desenvolvido como um trabalho individual para a consolidação de conhecimentos sobre estruturas em árvore .
