@@ -15,8 +15,8 @@ O programa segue uma estrutura Orientada a Objetos, separando a lógica de compr
 1.  **Clone o repositório:**
 
     ```bash
-    git clone <[https://github.com/joaopaulocruzdefaria/Huffman-Compressor](https://github.com/joaopaulocruzdefaria/Huffman-Compressor)>
-    cd <[https://github.com/joaopaulocruzdefaria/Huffman-Compressor](https://github.com/joaopaulocruzdefaria/Huffman-Compressor)>
+    git clone <https://github.com/joaopaulocruzdefaria/Huffman-Compressor>
+    cd <https://github.com/joaopaulocruzdefaria/Huffman-Compressor>
     ```
 
 2.  **Prepare o arquivo de entrada:**
