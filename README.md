@@ -61,21 +61,38 @@ O processo executado pelo programa é o seguinte:
 
 4.  **Compressão e Saída:** O texto original é lido novamente, e cada palavra é substituída pelo seu respectivo código binário. O resultado final (o mapa de códigos e o texto comprimido ) é salvo em `data/output.dat` .
 
+---
+
 ### Exemplo Visual da Árvore
 
-Para ilustrar o processo, considere o texto: `"O rato roeu a roupa. O rato é o rei."`.
-Isso gera o seguinte mapa de frequências:
-* `o`: 3
-* `rato`: 2
-* ... (etc) ...
+Para ilustrar o processo, considere o texto: `"O rato roeu a roupa. O rato é o rei."`
 
-A árvore de Huffman resultante (onde `(0)` é esquerda e `(1)` é direita) seria:
+Isso geraria o seguinte mapa de frequências (simplificado):
 
-` ` `
+  * `o`: 3
+  * `rato`: 2
+  * `roeu`: 1
+  * `a`: 1
+  * `roupa`: 1
+  * `é`: 1
+  * `rei`: 1
+
+A árvore de Huffman resultante (onde `(0)` é o ramo esquerdo e `(1)` é o ramo direito ) seria semelhante a esta:
+
+```
                 [RAIZ: Freq 10]
                /               \
          (0) /                 \ (1)
-... (etc, cole a árvore aqui) ...
-` ` `
+           /                     \
+       [Freq 4]                  [Freq 6]
+       /      \                  /      \
+ (0) /        \ (1)          (0) /        \ (1)
+   /            \              /            \
+[Freq 2]      [Freq 2]       ('o', 3)       [Freq 3]
+ /    \        /    \                     /      \
+(0)  (1)    (0)  (1)                 (0)  (1)
+/      \    /      \                 /      \
+('roeu', 1) ('a', 1) ('roupa', 1) ('é', 1)   ('rei', 1) ('rato', 2)
+```
 
-Note que palavras mais frequentes, como 'o' (freq 3), ficam mais perto da raiz, recebendo um código menor (neste caso, `10`). Palavras raras, como 'roeu' (freq 1), ficam mais fundas, recebendo um código maior (neste caso, `000`).
+Note que palavras mais frequentes, como 'o' (freq 3), ficam mais perto da raiz, recebendo um código menor (neste exemplo, `10`). Palavras raras, como 'roeu' (freq 1), ficam mais fundas, recebendo um código maior (neste exemplo, `000`). Isso demonstra o princípio de associar códigos menores aos símbolos mais frequentes .
